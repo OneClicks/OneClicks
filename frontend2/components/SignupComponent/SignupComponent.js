@@ -1,21 +1,64 @@
 import React from 'react'
 import styles from './SignupComponent.module.css'
+import { useState, useEffect } from 'react'
 
 function SignupComponent() {
+
+  const [userdata, setUserdata] = useState({firstName: "", lastName: "", email: "", password: ""})
+
+  useEffect(() => {
+    
+  }, [])
+
+  const submitSignup = () => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+        if (!localStorage.getItem("userData")) {
+            localStorage.setItem("userData", JSON.stringify([]));
+        }
+
+        let user = localStorage.getItem("userData") //getting input
+        if (user) { //if there
+            let userJson = JSON.parse(user) //JSON string to obj
+            if (userJson.filter(value => { return value.email == userdata.email }).length > 0) {
+                alert("This user already exists")
+            }
+            else {
+              userJson.push(userdata) //push new input to end of array
+                localStorage.setItem("userData", JSON.stringify(userJson)) //obj to JSON string
+                alert("User has been created")
+                setUserdata({ firstName: "", lastName: "", email: "", password: "" })
+            }
+        }
+        else {
+            localStorage.setItem("userData", JSON.stringify([userdata])) //obj to JSON string
+        }
+    }
+  }
+
+  
+
+  // const submitSignup = () => {
+
+  //  }
+
+  const onChange = (e) => {
+    // e.target.name = e.target.value;
+    setUserdata({
+        ...userdata, [e.target.name]: e.target.value
+    });
+    console.log(userdata);
+}
+
   return (
 
     <div class="container mx-auto">
       <div class="flex justify-center px-6 my-12">
         <div id={styles.glass} class="w-full xl:w-3/4 lg:w-11/12 flex ">
-          {/* col */}
           {/* bg-gray-400 */}
           <div   className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
-            // class="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg "
-          // style="background-image: url('https://source.unsplash.com/oWTW-jNGl9I/600x800')"
           >  <img id={styles.signupImage} src="/Images/signupImage.svg" alt="" />
           </div>
 
-          {/* col */}
           <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
             <div className="px-8 mb-4 text-center">
               <img
@@ -29,13 +72,35 @@ function SignupComponent() {
             </div>
 
             {/* class="px-8 pt-6 pb-8 mb-4 bg-white rounded" */}
-            <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" action="#" method="POST">
+            <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={submitSignup} action="#" method="POST">
+            <div class="mb-4">
+                <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+                  First Name
+                </label>
+                <div className="mt-2">
+                  <input onChange={onChange} id="firstName" name="firstName" type="text" required                    
+                    className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+                  Last Name
+                </label>
+                <div className="mt-2">
+                  <input onChange={onChange} id="lastName" name="lastName" type="text" required                    
+                    className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+              </div>
+
               <div class="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   Email address
                 </label>
                 <div className="mt-2">
-                  <input id="email" name="email" type="email" autoComplete="email" required                    
+                  <input onChange={onChange} id="email" name="email" type="email" autoComplete="email" required                    
                     className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
@@ -54,12 +119,7 @@ function SignupComponent() {
                 </div>
 
                 <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
+                  <input onChange={onChange} id="password" name="password" type="password" autoComplete="current-password" required
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
