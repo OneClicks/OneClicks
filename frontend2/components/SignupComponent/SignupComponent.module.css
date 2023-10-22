@@ -1,20 +1,7 @@
-.container{
-    background: radial-gradient(#faebdf, #9198e5);
-    /* position: relative; */
-}
 
-#signup{
-    position: relative;
-    height: 50%;
-    /* top: 80px; */
-    border: 2px solid black;
-    margin: 100px 100px;
-    /* padding: 100px 100px; */
-    /* background-color:aqua; */
-    /* margin-top: 100px; */
-    /* box-shadow: 10px 10px black; */
-    /* z-index: 1; */
-}
+ /* .bg-gray-400 {
+    backdrop-filter: blur(1000px); 
+  }  */
 
 
 /* .container {
@@ -51,20 +38,18 @@
   }
    */
 
-
+/* 
 #fhalf {
     margin-top: 170px;
-    /* size: 1000px; */
-    /* background-image: -o-linear-gradient("Images/Professional-People-Silhouette.svg"); */
-    /* background-color: aqua; */
-}
+   
+} 
 
 #signupImage {
-    /* border-image-slice: 50%; */
+   
 
 }
 
 #shalf {
     margin-top: 70px;
-    /* background-color: aquamarine; */
-}
+ 
+} */
