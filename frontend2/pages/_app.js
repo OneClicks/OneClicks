@@ -3,11 +3,13 @@ import Header from '@/components/HeaderComponent/Header'
 import Footer from '@/components/FooterComponent/FooterComponent'
 
 export default function App({ Component, pageProps }) {
+  const { hideHeaderFooter } = pageProps;
+
   return (
     <>
-    <Header/>
+      {!hideHeaderFooter && <Header />}
     <Component {...pageProps} />
-    <Footer/>
+    {!hideHeaderFooter && <Footer />}
     </>
     )
 }
