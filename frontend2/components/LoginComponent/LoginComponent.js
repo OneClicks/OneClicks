@@ -42,7 +42,7 @@ function LoginComponent() {
       <div className="flex justify-center px-6 my-12">
         <div id={styles.glass} className="w-full xl:w-3/4 lg:w-11/12 flex">
           <div className="w-full lg:w-1/2 bg-cover rounded-l-lg">
-            <img id={styles.loginImage} src="/Images/loginImage.svg" alt="" />
+            <img id={styles.loginImage} src="/Images/signupImage.svg" alt="" />
           </div>
 
           <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
