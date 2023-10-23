@@ -144,7 +144,7 @@ function SignupComponent() {
               <div class="text-center">
 								<a
 									class="inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-									href="#"
+									href={"/login"}
 								>
 									Already have an account? Login!
 								</a>
