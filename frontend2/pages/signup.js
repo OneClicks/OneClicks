@@ -7,4 +7,12 @@ function signup() {
     )
 }
 
+export async function getServerSideProps() {
+  return {
+    props: {
+      hideHeaderFooter: true, 
+    },
+  };
+}
+
 export default signup
