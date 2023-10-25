@@ -1,10 +1,17 @@
 import React from 'react'
 import LoginComponent from '@/components/LoginComponent/LoginComponent'
 
-function signup() {
+function login() {
   return (
     <LoginComponent/>
     )
 }
+export async function getServerSideProps() {
+  return {
+    props: {
+      hideHeaderFooter: true,
+    },
+  };
+}
 
-export default LoginComponent; 
+export default login
