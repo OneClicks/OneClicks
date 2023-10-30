@@ -5,50 +5,87 @@ import Link from 'next/link'
 
 function SignupComponent() {
 
-  const [userdata, setUserdata] = useState({firstName: "", lastName: "", email: "", password: ""})
+  // const [userdata, setUserdata] = useState({firstName: "", lastName: "", email: "", password: ""})
 
-  useEffect(() => {
-    
-  }, [])
-
-  const submitSignup = () => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-        if (!localStorage.getItem("userData")) {
-            localStorage.setItem("userData", JSON.stringify([]));
-        }
-
-        let user = localStorage.getItem("userData") //getting input
-        if (user) { //if there
-            let userJson = JSON.parse(user) //JSON string to obj
-            if (userJson.filter(value => { return value.email == userdata.email }).length > 0) {
-                alert("This user already exists")
-            }
-            else {
-              userJson.push(userdata) //push new input to end of array
-                localStorage.setItem("userData", JSON.stringify(userJson)) //obj to JSON string
-                alert("User has been created")
-                setUserdata({ firstName: "", lastName: "", email: "", password: "" })
-            }
-        }
-        else {
-            localStorage.setItem("userData", JSON.stringify([userdata])) //obj to JSON string
-        }
-    }
-  }
-
-  
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // const submitSignup = () => {
+  //   if (typeof window !== 'undefined' && window.localStorage) {
+  //       if (!localStorage.getItem("userData")) {
+  //           localStorage.setItem("userData", JSON.stringify([]));
+  //       }
 
-  //  }
+  //       let user = localStorage.getItem("userData") //getting input
+  //       if (user) { //if there
+  //           let userJson = JSON.parse(user) //JSON string to obj
+  //           if (userJson.filter(value => { return value.email == userdata.email }).length > 0) {
+  //               alert("This user already exists")
+  //           }
+  //           else {
+  //             userJson.push(userdata) //push new input to end of array
+  //               localStorage.setItem("userData", JSON.stringify(userJson)) //obj to JSON string
+  //               alert("User has been created")
+  //               setUserdata({ firstName: "", lastName: "", email: "", password: "" })
+  //           }
+  //       }
+  //       else {
+  //           localStorage.setItem("userData", JSON.stringify([userdata])) //obj to JSON string
+  //       }
+  //   }
+  // }
+
+  const submitSignup = async (e) => {
+    e.preventDefault() //stops from reloading on form submit
+    const data = { firstname, lastname, email, password };
+
+    try {
+          const response = await fetch("http://localhost:3000/api/signup", {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log("Success:", result);
+      console.log("data: ", data);
+
+      setFirstname("");
+      setLastname("");
+      setEmail("")
+      setPassword("");
+  
+    } 
+    catch (error) {
+      console.log("data in error: ", data);
+      console.error("Error:", error);
+    }
+   
+  }
 
   const onChange = (e) => {
+    if(e.target.name == "firstname"){
+      setFirstname(e.target.value);
+    }
+    else if(e.target.name == "lastname"){
+      setLastname(e.target.value);
+    }
+    if(e.target.name == "email"){
+      setEmail(e.target.value);
+    }
+    if(e.target.name == "password"){
+      setPassword(e.target.value);
+    }
     // e.target.name = e.target.value;
-    setUserdata({
-        ...userdata, [e.target.name]: e.target.value
-    });
-    console.log(userdata);
-}
+    // setUserdata({
+    //   ...userdata, [e.target.name]: e.target.value
+    // });
+    // console.log(userdata);
+  }
 
   return (
 
@@ -56,7 +93,7 @@ function SignupComponent() {
       <div className="flex justify-center px-6 my-12">
         <div id={styles.glass} className="w-full xl:w-3/4 lg:w-11/12 flex ">
           {/* bg-gray-400 */}
-          <div   className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
+          <div className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
           >  <img id={styles.signupImage} src="/Images/signupImage.svg" alt="" />
           </div>
 
@@ -74,24 +111,24 @@ function SignupComponent() {
 
             {/* className="px-8 pt-6 pb-8 mb-4 bg-white rounded" */}
             <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={submitSignup} action="#" method="POST">
-            <div className="mb-4">
-                <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+              <div className="mb-4">
+                <label htmlFor="firstname" className="block text-sm font-medium leading-6 text-gray-900">
                   First Name
                 </label>
                 <div className="mt-2">
-                  <input onChange={onChange} id="firstName" name="firstName" type="text" required                    
-                    className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  <input value={firstname} onChange={onChange} id="firstname" name="firstname" type="text" required
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
               </div>
 
               <div className="mb-4">
-                <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="lastname" className="block text-sm font-medium leading-6 text-gray-900">
                   Last Name
                 </label>
                 <div className="mt-2">
-                  <input onChange={onChange} id="lastName" name="lastName" type="text" required                    
-                    className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  <input value={lastname} onChange={onChange} id="lastname" name="lastname" type="text" required
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
               </div>
@@ -101,8 +138,8 @@ function SignupComponent() {
                   Email address
                 </label>
                 <div className="mt-2">
-                  <input onChange={onChange} id="email" name="email" type="email" autoComplete="email" required                    
-                    className= "w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  <input value={email} onChange={onChange} id="email" name="email" type="email" autoComplete="email" required
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
               </div>
@@ -120,7 +157,7 @@ function SignupComponent() {
                 </div>
 
                 <div className="mt-2">
-                  <input onChange={onChange} id="password" name="password" type="password" autoComplete="current-password" required
+                  <input value={password} onChange={onChange} id="password" name="password" type="password" autoComplete="current-password" required
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   />
                 </div>
@@ -143,13 +180,13 @@ function SignupComponent() {
               {/* <hr className="mb-6 border-t" /> */}
               <hr className="my-6 border-t border-gray-300" />
               <div className="text-center">
-								<Link
-									className="inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-									href={"/login"}
-								>
-									Already have an account? Login!
-								</Link>
-							</div>
+                <Link
+                  className="inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+                  href={"/login"}
+                >
+                  Already have an account? Login!
+                </Link>
+              </div>
             </form>
           </div>
         </div>
