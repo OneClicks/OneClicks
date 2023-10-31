@@ -1,41 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import styles from './LoginComponent.module.css';
 
-function LoginComponent() {
-  const [userData, setUserData] = useState({ email: '', password: '' });
+// const [userdata, setUserdata] = useState({firstName: "", lastName: "", email: "", password: ""})
 
-  useEffect(() => {
-    // Add any initialization code if needed
-  }, []);
+// const [firstname, setFirstname] = useState("");
+// const [lastname, setLastname] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
 
-  const submitLogin = () => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storedUsers = localStorage.getItem('userData');
-      if (storedUsers) {
-        const users = JSON.parse(storedUsers);
-        const user = users.find((u) => u.email === userData.email);
-        if (user) {
-          if (user.password === userData.password) {
-            alert('Login successful');
-            // You can redirect the user to another page here.
-          } else {
-            alert('Incorrect password');
-          }
-        } else {
-          alert('User not found. Please sign up.');
-        }
-      } else {
-        alert('No users found. Please sign up.');
-      }
-    }
-  };
+// const submitSignup = () => {
+//   if (typeof window !== 'undefined' && window.localStorage) {
+//       if (!localStorage.getItem("userData")) {
+//           localStorage.setItem("userData", JSON.stringify([]));
+//       }
 
-  const onChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value,
+//       let user = localStorage.getItem("userData") //getting input
+//       if (user) { //if there
+//           let userJson = JSON.parse(user) //JSON string to obj
+//           if (userJson.filter(value => { return value.email == userdata.email }).length > 0) {
+//               alert("This user already exists")
+//           }
+//           else {
+//             userJson.push(userdata) //push new input to end of array
+//               localStorage.setItem("userData", JSON.stringify(userJson)) //obj to JSON string
+//               alert("User has been created")
+//               setUserdata({ firstName: "", lastName: "", email: "", password: "" })
+//           }
+//       }
+//       else {
+//           localStorage.setItem("userData", JSON.stringify([userdata])) //obj to JSON string
+//       }
+//   }
+// }
+
+const submitLogin = async (e) => {
+  e.preventDefault() //stops from reloading on form submit
+  const data = { email, password };
+
+  try {
+        const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
-  };
+
+    const result = await response.json();
+    console.log("Success:", result);
+    console.log("data: ", data);
+
+    // setFirstname("");
+    // setLastname("");
+    setEmail("")
+    setPassword("");
+
+  } 
+  catch (error) {
+    console.log("data in error: ", data);
+    console.error("Error:", error);
+  }
+ 
+}
+
+const onChange = (e) => {
+  // if(e.target.name == "firstname"){
+  //   setFirstname(e.target.value);
+  // }
+  // else if(e.target.name == "lastname"){
+  //   setLastname(e.target.value);
+  // }
+  if(e.target.name == "email"){
+    setEmail(e.target.value);
+  }
+  else if(e.target.name == "password"){
+    setPassword(e.target.value);
+  }
+  // e.target.name = e.target.value;
+  // setUserdata({
+  //   ...userdata, [e.target.name]: e.target.value
+  // });
+  // console.log(userdata);
+ 
+
+
+
+ 
 
   return (
     <div className="container mx-auto">
@@ -64,6 +114,7 @@ function LoginComponent() {
                 </label>
                 <div className="mt-2">
                   <input
+                    value ={email}
                     onChange={onChange}
                     id="email"
                     name="email"
@@ -81,6 +132,7 @@ function LoginComponent() {
                 </label>
                 <div className="mt-2">
                   <input
+                    value = {password}
                     onChange={onChange}
                     id="password"
                     name="password"
