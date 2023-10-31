@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './SignupComponent.module.css'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 function SignupComponent() {
 
@@ -74,10 +75,10 @@ function SignupComponent() {
     else if(e.target.name == "lastname"){
       setLastname(e.target.value);
     }
-    if(e.target.name == "email"){
+    else if(e.target.name == "email"){
       setEmail(e.target.value);
     }
-    if(e.target.name == "password"){
+    else if(e.target.name == "password"){
       setPassword(e.target.value);
     }
     // e.target.name = e.target.value;
@@ -93,8 +94,10 @@ function SignupComponent() {
       <div className="flex justify-center px-6 my-12">
         <div id={styles.glass} className="w-full xl:w-3/4 lg:w-11/12 flex ">
           {/* bg-gray-400 */}
-          <div className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
-          >  <img id={styles.signupImage} src="/Images/signupImage.svg" alt="" />
+          <div className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-l-lg">  
+          
+          {/* <Image src="/Images/signupImage.svg" alt="" height={"100%"} width={100}/> */}
+          <img id={styles.signupImage} src="/Images/signupImage.svg" alt="" />
           </div>
 
           <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
